@@ -7,16 +7,14 @@ const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 const rewire = require('rewire');
 
-var { Sequelize } = require('sequelize');
-
 var designations = rewire('../controller/designation.controller');
 var Designation = require('../models/designation.model');
 
-var sandbox = sinon.sandbox.createSandbox();
+var sandbox = sinon.createSandbox();
 
 describe('designations', () => {
     let findStub;
-    let sampleDesignation; Tt
+    let sampleDesignation;
 
     beforeEach(() => {
         sampleDesignation = {
@@ -37,9 +35,9 @@ describe('designations', () => {
 
     context('get', () => {
         it('should check for an id', (done) => {
-            users.get(null, (err, result) => {
+            designations.get(null, (err, result) => {
                 expect(err).to.exist;
-                expect(err.message).to.equal('Invalid user id');
+                expect(err.message).to.equal('Designation not found!');
                 done();
             })
         })
@@ -48,7 +46,7 @@ describe('designations', () => {
             sandbox.restore();
             let stub = sandbox.stub(Designation, 'findOne').yields(null, { title: 'foo' });
 
-            users.get(123, (err, result) => {
+            designations.getDesignation(123, (err, result) => {
                 expect(err).to.not.exist;
                 expect(stub).to.have.been.calledOnce;
                 expect(stub).to.have.been.calledWith(123);
