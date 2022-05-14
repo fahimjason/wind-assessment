@@ -31,8 +31,9 @@ $ cd wind-assessment
 
 -   Local MySQL
 
-    -   Install it from [XAMPP v7.4.29 ](https://www.apachefriends.org/download.html)
-        > Create a .env file and adjust the following environment variables. DONOT include the file in the source control.
+    Install it from [XAMPP v7.4.29 ](https://www.apachefriends.org/download.html)
+
+    > Create a .env file and adjust the following environment variables. DONOT include the file in the source control.
 
     ```bash
     DB_NAME=<value>
