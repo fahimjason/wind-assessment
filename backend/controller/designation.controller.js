@@ -16,24 +16,17 @@ async function getDesignations(req, res) {
 async function getDesignation(req, res) {
     try {
         const { id } = req.params;
-        let result = [];
 
-        // const designation = await Designation.findOne({
-        //     where: {
-        //         id
-        //     }
-        // });
+        const designation = await Designation.findOne({
+            where: {
+                id: id,
+            }
+        });
 
-        // if (!designation) return res.status(404).send('Designation not found!');
+        if (!designation) return res.status(404).send('Designation not found!');
 
         const getChildren = async (designationId, result) => {
-            const designation = await Designation.findOne({
-                where: {
-                    id
-                }
-            });
 
-            if (!designation) return res.status(404).send('Designation not found!');
 
             const children = await Designation.findAll({
                 where: {
@@ -41,7 +34,7 @@ async function getDesignation(req, res) {
                 }
             });
 
-            if (children.length > 0) {
+            if (children?.length > 0) {
                 children.map(async element => {
                     result.push(element.dataValues);
                     await getChildren(element.dataValues.id, result);
@@ -49,6 +42,7 @@ async function getDesignation(req, res) {
             }
         }
 
+        const result = [];
         await getChildren(id, result);
 
         res.status(200).send(result);
